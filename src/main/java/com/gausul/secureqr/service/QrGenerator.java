@@ -9,6 +9,7 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -18,12 +19,20 @@ import java.util.Map;
 public class QrGenerator {
 
     public String generateQr(String data, String filePath) throws Exception {
+        byte[] png = generateQrBytes(data);
+        Path path = FileSystems.getDefault().getPath(filePath);
+        java.nio.file.Files.write(path, png);
+        return "QR generated successfully at: " + path.toAbsolutePath();
+    }
 
-        int width = 300;
-        int height = 300;
+    // NEW: returns PNG bytes (use this for ResponseEntity)
+    public byte[] generateQrBytes(String data) throws Exception {
+        int width = 400;
+        int height = 400;
 
         Map<EncodeHintType, Object> hints = new HashMap<>();
         hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+        hints.put(EncodeHintType.MARGIN, 1);
 
         BitMatrix matrix = new MultiFormatWriter().encode(
                 data,
@@ -33,9 +42,9 @@ public class QrGenerator {
                 hints
         );
 
-        Path path = FileSystems.getDefault().getPath(filePath);
-        MatrixToImageWriter.writeToPath(matrix, "PNG", path);
-
-        return "QR generated successfully at: " + path.toAbsolutePath();
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            MatrixToImageWriter.writeToStream(matrix, "PNG", baos);
+            return baos.toByteArray();
+        }
     }
 }

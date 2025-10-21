@@ -19,7 +19,7 @@ public class QrController {
     @PostMapping("/generate")
     public String generateQr(@RequestParam String data) {
         try {
-            String filePath = "src/main/resources/qr-imgs/qr-output.png";
+            String filePath = "src/main/resources/qr-imgs/MessageforTanzeela.png";
             return qrGenerator.generateQr(data, filePath);
         } catch (Exception e) {
             return "Error generating QR: " + e.getMessage();
@@ -29,7 +29,7 @@ public class QrController {
     @GetMapping("/read")
     public String readQr() {
         try {
-            String filePath = "src/main/resources/qr-imgs/qr-output.png";
+            String filePath = "src/main/resources/qr-imgs/MessageforTanzeela.png";
             String content = qrReader.readQr(filePath);
             return "Decoded QR content: " + content;
         } catch (Exception e) {
