@@ -51,8 +51,31 @@ public class IssuerService {
 
     // Issue a leaf under the given issuerId
     public LeafKey issueLeaf(String issuerId, String alias) throws Exception {
-        return null;
+        // 1️⃣ Load the issuer (root)
+        Issuer issuer = issuerRepository.findById(issuerId)
+                .orElseThrow(() -> new IllegalArgumentException("Issuer not found: " + issuerId));
+
+        // 2️⃣ Generate a new leaf EC keypair
+        KeyPair leafKp = cryptoService.generateEcdsaKeyPair();
+
+        String leafPubB64 = cryptoService.encodePublicKeyToBase64(leafKp.getPublic());
+        String leafPrivB64 = cryptoService.encodePrivateKeyToBase64(leafKp.getPrivate());
+
+        // 3️⃣ Sign the leaf's public key using the issuer’s private key
+        String rootPriv = issuer.getPrivateKeyEncrypted();
+        String issuerSignature = cryptoService.signEcdsa(leafPubB64, rootPriv);
+
+        // 4️⃣ Create and save LeafKey entity
+        LeafKey leaf = new LeafKey();
+        leaf.setAlias(alias);
+        leaf.setIssuerId(issuerId);
+        leaf.setPublicKeyBase64(leafPubB64);
+        leaf.setPrivateKeyEncrypted(leafPrivB64);  // ⚠️ In prod: encrypt before storing
+        leaf.setIssuerSignature(issuerSignature);
+
+        return leafKeyRepository.save(leaf);
     }
+
 
     public Issuer getIssuer(String issuerId) { return issuerRepository.findById(issuerId).orElse(null); }
 
