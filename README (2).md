@@ -1,4 +1,4 @@
-# SecureQR
+# SecureQR (link: secureqrcicd-2u7vo.ondigitalocean.app)
 ### Cryptographically Signed & Verified QR Code Platform
 
 SecureQR is a full-stack cryptographic QR system that generates tamper-proof, verifiable, and optionally encrypted QR codes using a root–leaf trust hierarchy inspired by real-world certificate authorities.
