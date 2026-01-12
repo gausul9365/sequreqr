@@ -1,6 +1,6 @@
-# SecureQR (link: secureqrcicd-2u7vo.ondigitalocean.app)
+# SecureQR 
 ### Cryptographically Signed & Verified QR Code Platform
-
+#### backend running link: secureqrcicd-2u7vo.ondigitalocean.app
 SecureQR is a full-stack cryptographic QR system that generates tamper-proof, verifiable, and optionally encrypted QR codes using a root–leaf trust hierarchy inspired by real-world certificate authorities.
 
 It allows anyone to:
@@ -71,11 +71,11 @@ Impossible to verify
 
 SecureQR fixes this by embedding cryptographic proof directly inside QR codes.
 
-Every QR generated is:
-✅ Signed
-✅ Verifiable
-✅ Trusted by a Root Issuer
-✅ Optionally Encrypted
+Every QR generated is:     
+✔ Signed       
+✔ Verifiable     
+✔ Trusted by a Root Issuer     
+✔ Optionally Encrypted     
 
 
 ## High-Level Architecture
@@ -138,6 +138,12 @@ Verifies authenticity
 Decrypts using their private key
 
 Result:
-✅ Trusted
-✅ Confidential
-✅ Unforgeable
+✔ Trusted
+✔ Confidential
+✔ Unforgeable
+
+# Author
+## Gausul Wara 
+#### https://www.linkedin.com/in/gausul-wara-643783256/
+
+## Documentation Complete . Thank you so much for your valuable time!
